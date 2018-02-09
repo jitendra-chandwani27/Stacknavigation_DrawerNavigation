@@ -1,35 +1,38 @@
 import React from 'react';
 import { View, Text, Button, Image, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { StackNavigator, DrawerNavigator } from 'react-navigation'; // 1.0.0-beta.27
-
-const LogoTitle =(props)=> {
-
+// LOGO 
+class LogoTitle extends React.Component {
+  render() {
     return (
-      <TouchableOpacity onPress={props.onPress}>
-        <Image source={require('/home/ranosys/App/menu.png')} style={{ width: 30, height: 30 }} />
+      <TouchableOpacity onPress={()=>{this.props.navi('DrawerOpen')}}>
+      <Image source={require('/home/ranosys/App/menu.png')} style={{ width: 30, height: 30 }} />
       </TouchableOpacity>
     );
   }
+}
+// Home Screeen
+
 
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    headerTitle: <LogoTitle onPress={()=>this.props.navigation.navigate('DrawerOpen')}/>,
+    
     drawerLabel: 'Home',
-
     drawerIcon: ({ tintColor }) => (
       <Image
         source={require('/home/ranosys/App/home.png')}
         style={[styles.icon, { tintColor: tintColor }]}
       />
     ),
-
+   
     //title: "Home",
     headerRight: (
       <Button onPress={() => alert("Button Pressed")} title="Info" color="#db976d" />
     )
-  };
 
+
+  };
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -55,7 +58,6 @@ class ProfileScreen extends React.Component {
       headerTintColor: navigationOptions.headerStyle.backgroundColor,
     }
   };
-  
   render() {
     const { params } = this.props.navigation.state;
     const Name = params ? params.Name : null;
@@ -107,9 +109,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyApp = DrawerNavigator({
+const MyApp = new DrawerNavigator({
   Home: { screen: HomeScreen },
-  Notifications: { screen: MyNotificationsScreen },
+  Notifications: { screen: MyNotificationsScreen },},{
+  navigationOptions: ({ navigation }) => ({
+    headerLeft:<LogoTitle navi={navigation.navigate}/>
+  }),
 });
 
 const RootStack = StackNavigator({
