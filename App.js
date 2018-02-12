@@ -5,19 +5,15 @@ import { StackNavigator, DrawerNavigator } from 'react-navigation'; // 1.0.0-bet
 class LogoTitle extends React.Component {
   render() {
     return (
-      <TouchableOpacity onPress={()=>{this.props.navi('DrawerOpen')}}>
-      <Image source={require('/home/ranosys/App/menu.png')} style={{ width: 30, height: 30 }} />
+      <TouchableOpacity onPress={() => { this.props.humburger_icon('DrawerOpen') }}>
+        <Image source={require('/home/ranosys/App/menu.png')} style={{ width: 30, height: 30 }} />
       </TouchableOpacity>
     );
   }
 }
 // Home Screeen
-
-
-
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    
     drawerLabel: 'Home',
     drawerIcon: ({ tintColor }) => (
       <Image
@@ -25,7 +21,7 @@ class HomeScreen extends React.Component {
         style={[styles.icon, { tintColor: tintColor }]}
       />
     ),
-   
+
     //title: "Home",
     headerRight: (
       <Button onPress={() => alert("Button Pressed")} title="Info" color="#db976d" />
@@ -109,13 +105,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyApp = new DrawerNavigator({
-  Home: { screen: HomeScreen },
-  Notifications: { screen: MyNotificationsScreen },},{
-  navigationOptions: ({ navigation }) => ({
-    headerLeft:<LogoTitle navi={navigation.navigate}/>
-  }),
-});
+const MyApp = new DrawerNavigator(
+  {
+    Home: { screen: HomeScreen },
+    Notifications: { screen: MyNotificationsScreen },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <LogoTitle humburger_icon={navigation.navigate} />
+    }),
+  });
 
 const RootStack = StackNavigator({
   // Screens
@@ -127,7 +126,7 @@ const RootStack = StackNavigator({
     initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#edbcb4',
+        backgroundColor: 'tomato',
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
@@ -142,5 +141,3 @@ export default class App extends React.Component {
     return <RootStack />;
   }
 }
-
-
